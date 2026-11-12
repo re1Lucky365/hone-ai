@@ -1,3 +1,31 @@
+[Unit]
+Description=Enterprise SIEM Integrity & GPG Signature Monitor (WK Precision Enterprise LLC)
+After=network.target journald.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/re1Lucky365/master-hub
+ExecStart=/usr/bin/python3 /home/re1Lucky365/master-hub/scripts/siem_alert_monitor.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+# 1. Reload systemd manager to recognize the new service file
+sudo systemctl daemon-reload
+
+# 2. Enable the service to start automatically on system boot
+sudo systemctl enable siem-integrity-monitor.service
+
+# 3. Start the service immediately
+sudo systemctl start siem-integrity-monitor.service
+
+# 4. Check status and live syslog output
+sudo systemctl status siem-integrity-monitor.service
+journalctl -t siem-integrity-monitor -f
+journalctl -t siem-integrity-monitor -f
+
 #!/usr/bin/env python3
 """
 WK Precision Enterprise LLC - Cryptographic Asset & Copyright Anchoring Utility
